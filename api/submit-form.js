@@ -16,13 +16,12 @@ export default async function handler(req, res) {
         return res.status(405).json({ message: 'Metode tidak diizinkan.' });
     }
 
-    // Pastikan DATABASE_URL sudah diatur di Environment Variables Vercel
-    if (!process.env.DATABASE_URL) {
-        return res.status(500).json({ message: 'DATABASE_URL tidak terkonfigurasi.' });
+    if (!process.env.POSTGRES_URL) { // Perubahan di sini
+        return res.status(500).json({ message: 'POSTGRES_URL tidak terkonfigurasi.' });
     }
 
     const client = new Client({
-        connectionString: process.env.DATABASE_URL,
+        connectionString: process.env.POSTGRES_URL, // Perubahan di sini
     });
 
     try {
@@ -30,20 +29,17 @@ export default async function handler(req, res) {
 
         const { produkList, totalHarga, namaPanel, metodeBayar, kodeOrder, tanggal } = req.body;
 
-        const produkItems = produkList.map(item => `  - ${item.nama} (Rp ${item.harga.toLocaleString('id-ID')})`).join('\n');
-
-        // ------ Simpan data ke Supabase (PostgreSQL) ------
         const query = `
             INSERT INTO orders (order_code, nama_panel, produk_list, total_harga, metode_pembayaran, tanggal)
             VALUES ($1, $2, $3, $4, $5, $6)
             ON CONFLICT (order_code) DO NOTHING;
         `;
-        // produk_list disimpan sebagai JSON string menggunakan JSON.stringify
         const values = [kodeOrder, namaPanel, JSON.stringify(produkList), totalHarga, metodeBayar, tanggal];
 
         await client.query(query, values);
         
-        // ------ Kirim notifikasi email ------
+        const produkItems = produkList.map(item => `  - ${item.nama} (Rp ${item.harga.toLocaleString('id-ID')})`).join('\n');
+
         const emailText = `
             Ada pesanan baru dari website!
             -----------------------------
@@ -71,7 +67,6 @@ export default async function handler(req, res) {
         console.error('Terjadi kesalahan:', error);
         res.status(500).json({ message: 'Gagal memproses pesanan.', error: error.message });
     } finally {
-        // Pastikan koneksi database selalu ditutup
         await client.end();
     }
 }
