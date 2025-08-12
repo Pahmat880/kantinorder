@@ -4,30 +4,171 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulir Pemesanan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .container { background-color: #fff; padding: 20px 40px; border-radius: 12px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); width: 100%; max-width: 450px; }
-        h2 { text-align: center; color: #333; margin-bottom: 25px; }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: bold; color: #555; }
-        .product-list label { font-weight: normal; margin-bottom: 10px; display: flex; align-items: center; }
-        .product-list input[type="checkbox"] { margin-right: 10px; }
-        input[type="text"], input[type="number"], select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
-        button { width: 100%; padding: 15px; background-color: #28a745; color: #fff; border: none; border-radius: 8px; font-size: 1.1em; cursor: pointer; transition: background-color 0.3s ease; }
-        button:hover { background-color: #218838; }
-        .btn-secondary { background-color: #007bff; margin-top: 10px; }
-        .btn-secondary:hover { background-color: #0056b3; }
-        .cart-summary, .order-summary, #payment-methods { display: none; margin-top: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
-        .order-summary h3, .cart-summary h3 { margin-top: 0; }
-        .cart-summary ul { list-style: none; padding: 0; }
-        .cart-summary li { margin-bottom: 5px; }
-        #whatsapp-message-box { white-space: pre-wrap; font-family: monospace; background-color: #f9f9f9; padding: 15px; border-radius: 8px; }
+        /* ... kode CSS yang sama seperti sebelumnya ... */
+        :root {
+            --primary-blue: #007bff;
+            --primary-green: #28a745;
+            --light-bg: #f8f9fa;
+            --dark-text: #343a40;
+            --secondary-text: #6c757d;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        h2 {
+            text-align: center;
+            color: var(--primary-blue);
+            margin-bottom: 25px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-text);
+        }
+        .product-list label {
+            font-weight: normal;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .product-list label:hover {
+            background-color: #dee2e6;
+        }
+        .product-list input[type="checkbox"], .product-list input[type="radio"] {
+            margin-right: 15px;
+            accent-color: var(--primary-blue);
+            width: 20px;
+            height: 20px;
+        }
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        input:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary-green);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        button:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+        button i {
+            margin-right: 8px;
+        }
+        .btn-secondary {
+            background-color: var(--primary-blue);
+            margin-top: 10px;
+        }
+        .btn-secondary:hover {
+            background-color: #0056b3;
+        }
+        .cart-summary, .order-summary, #payment-methods {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            background-color: var(--light-bg);
+        }
+        .cart-summary h3, .order-summary h3 {
+            margin-top: 0;
+            color: var(--primary-blue);
+        }
+        .cart-summary ul {
+            list-style: none;
+            padding: 0;
+            border-top: 1px dashed #ccc;
+            margin-top: 10px;
+            padding-top: 10px;
+        }
+        .cart-summary li {
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+        #cart-total-price {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--primary-green);
+        }
+        .order-summary hr {
+            border-top: 1px solid #ced4da;
+            margin: 15px 0;
+        }
+        #whatsapp-message-box {
+            white-space: pre-wrap;
+            font-family: monospace;
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px dashed #ccc;
+        }
+        .payment-logo {
+            width: 80px;
+            height: auto;
+            margin-right: 15px;
+        }
+        #payment-methods p {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .qr-code-img {
+            width: 100%;
+            max-width: 300px;
+            margin-top: 10px;
+            border-radius: 8px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Formulir Pemesanan</h2>
-        
+        <h2><i class="fas fa-clipboard-list"></i> Formulir Pemesanan</h2>
         <div id="product-selection">
             <div class="form-group">
                 <label>Pilih Produk:</label>
@@ -47,23 +188,25 @@
                     <label><input type="checkbox" name="produk" value="Tangan Kanan Panel" data-price="15000"> Tangan Kanan Panel (Rp 15.000)</label>
                 </div>
             </div>
-            <button type="button" onclick="addToCart()">Tambahkan ke Keranjang</button>
+            <button type="button" onclick="addToCart()"><i class="fas fa-plus"></i> Tambahkan ke Keranjang</button>
             <div id="cart-summary" class="cart-summary">
-                <h3>Keranjang Anda:</h3>
+                <h3><i class="fas fa-shopping-cart"></i> Keranjang Anda:</h3>
                 <ul id="cart-items"></ul>
                 <p><strong>Total Sementara:</strong> <span id="cart-total-price">Rp 0</span></p>
-                <button type="button" onclick="showOrderDetailsForm()">Lanjut ke Pembayaran</button>
+                <button type="button" onclick="showOrderDetailsForm()" class="btn-secondary">
+                    <i class="fas fa-arrow-right"></i> Lanjut ke Pembayaran
+                </button>
             </div>
         </div>
         
         <form id="orderForm">
             <div id="order-details-form" style="display: none;">
                 <div class="form-group">
-                    <label for="namaPanel">Nama Panel:</label>
-                    <input type="text" id="namaPanel" name="namaPanel" required>
+                    <label for="namaPanel"><i class="fas fa-user-circle"></i> Nama Panel:</label>
+                    <input type="text" id="namaPanel" name="namaPanel" placeholder="Masukkan nama panel Anda" required>
                 </div>
                 <div class="form-group">
-                    <label for="metodeBayar">Metode Pembayaran:</label>
+                    <label for="metodeBayar"><i class="fas fa-credit-card"></i> Metode Pembayaran:</label>
                     <div class="product-list">
                         <label><input type="radio" name="metodeBayar" value="Qris" required> Qris</label>
                         <label><input type="radio" name="metodeBayar" value="Dana"> Dana</label>
@@ -71,12 +214,12 @@
                         <label><input type="radio" name="metodeBayar" value="Gopay"> Gopay</label>
                     </div>
                 </div>
-                <button type="submit">Konfirmasi & Submit</button>
+                <button type="submit"><i class="fas fa-check-circle"></i> Konfirmasi & Submit</button>
             </div>
         </form>
 
         <div id="order-summary-container" class="order-summary">
-            <h3>Detail Pesanan Anda:</h3>
+            <h3><i class="fas fa-receipt"></i> Detail Pesanan Anda:</h3>
             <p><strong>Produk:</strong> <span id="summary-produk"></span></p>
             <p><strong>Total Harga:</strong> <span id="summary-harga"></span></p>
             <p><strong>Nama Panel:</strong> <span id="summary-nama-panel"></span></p>
@@ -86,20 +229,20 @@
             <hr>
             <p>Berikut teks yang akan dikirim ke WhatsApp:</p>
             <div id="whatsapp-message-box"></div>
-            <button id="send-order-btn">Kirim Orderan</button>
-            <button id="show-payment-btn" class="btn-secondary">Tampilkan Metode Pembayaran</button>
+            <button id="send-order-btn"><i class="fab fa-whatsapp"></i> Kirim Orderan</button>
+            <button id="show-payment-btn" class="btn-secondary"><i class="fas fa-info-circle"></i> Tampilkan Metode Pembayaran</button>
         </div>
 
         <div id="payment-methods">
-            <h3>Metode Pembayaran:</h3>
-            <p><strong>Dana:</strong> 0812-3456-7890 (a.n. John Doe)</p>
-            <p><strong>OVO:</strong> 0812-3456-7890 (a.n. John Doe)</p>
-            <p><strong>Gopay:</strong> 0812-3456-7890 (a.n. John Doe)</p>
+            <h3><i class="fas fa-money-bill-wave"></i> Metode Pembayaran:</h3>
+            <p><img src="images/dana.png" alt="Logo Dana" class="payment-logo"><strong>Dana:</strong> 0812-3456-7890 (a.n. John Doe)</p>
+            <p><img src="images/ovo.png" alt="Logo OVO" class="payment-logo"><strong>OVO:</strong> 0812-3456-7890 (a.n. John Doe)</p>
+            <p><img src="images/gopay.png" alt="Logo Gopay" class="payment-logo"><strong>Gopay:</strong> 0812-3456-7890 (a.n. John Doe)</p>
             <p><strong>QRIS:</strong> Scan QR Code di bawah ini:</p>
-            
+            <img src="images/qris.png" alt="QRIS Code" class="qr-code-img">
         </div>
     </div>
-
+    
     <script>
         let keranjang = [];
 
@@ -128,7 +271,7 @@
             
             if (keranjang.length > 0) {
                 cartSummaryEl.style.display = 'block';
-                cartItemsEl.innerHTML = keranjang.map(item => `<li>${item.nama} (Rp ${item.harga.toLocaleString('id-ID')})</li>`).join('');
+                cartItemsEl.innerHTML = keranjang.map(item => `<li><span>${item.nama}</span><span>Rp ${item.harga.toLocaleString('id-ID')}</span></li>`).join('');
                 
                 const total = keranjang.reduce((sum, item) => sum + item.harga, 0);
                 cartTotalPriceEl.innerText = `Rp ${total.toLocaleString('id-ID')}`;
@@ -210,7 +353,7 @@ Terima kasih atas pesanannya.`;
         });
 
         document.getElementById('send-order-btn').addEventListener('click', () => {
-            const nomorWhatsApp = '6281234567890';
+            const nomorWhatsApp = '6282135236285';
             const pesan = document.getElementById('whatsapp-message-box').innerText;
             const whatsappLink = `https://api.whatsapp.com/send?phone=${nomorWhatsApp}&text=${encodeURIComponent(pesan)}`;
             window.open(whatsappLink, '_blank');

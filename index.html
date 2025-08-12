@@ -3,25 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toko Bebas</title>
+    <title>Kantin Digital | Layanan Panel Pterodactyl</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; text-align: center; color: #333; }
-        .container { padding: 40px; border-radius: 12px; background-color: #fff; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); max-width: 500px; }
-        .logo { width: 120px; height: 120px; border-radius: 50%; background-color: #007bff; margin: 0 auto 20px; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 48px; font-weight: bold; }
-        h1 { font-size: 2.5em; margin-bottom: 10px; }
-        p { font-size: 1.1em; color: #555; margin-bottom: 30px; }
-        .create-order-button { padding: 15px 30px; font-size: 1.2em; color: #fff; background-color: #28a745; border: none; border-radius: 8px; text-decoration: none; transition: background-color 0.3s ease; }
-        .create-order-button:hover { background-color: #218838; }
+        /* ... kode CSS yang sama seperti sebelumnya ... */
+        :root {
+            --primary-blue: #007bff;
+            --primary-green: #28a745;
+            --light-bg: #f8f9fa;
+            --dark-text: #343a40;
+            --secondary-text: #6c757d;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+            color: var(--dark-text);
+        }
+        .container {
+            padding: 40px;
+            border-radius: 12px;
+            background-color: #fff;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+        }
+        .logo-container {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: var(--primary-blue);
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 48px;
+            font-weight: bold;
+            overflow: hidden;
+        }
+        .logo-container img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .logo-icon {
+            font-size: 56px;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 5px;
+            color: var(--primary-blue);
+        }
+        p {
+            font-size: 1.1em;
+            color: var(--secondary-text);
+            margin-bottom: 30px;
+        }
+        .create-order-button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            color: #fff;
+            background-color: var(--primary-green);
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .create-order-button:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="logo">
-            <span style="font-size: 40px;">🛒</span>
+        <div class="logo-container">
+            <img src="images/logo.png" alt="Logo Toko">
         </div>
         <h1>Toko Bebas</h1>
         <p>Layanan panel pterodactyl</p>
-        <a href="form.html" class="create-order-button">Create Order</a>
+        <a href="form.html" class="create-order-button">
+            <i class="fas fa-shopping-cart"></i> Buat Pesanan
+        </a>
     </div>
 </body>
 </html>
