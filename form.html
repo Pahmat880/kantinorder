@@ -6,7 +6,6 @@
     <title>Formulir Pemesanan</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* ... kode CSS yang sama seperti sebelumnya ... */
         :root {
             --primary-blue: #007bff;
             --primary-green: #28a745;
@@ -148,27 +147,83 @@
             border-radius: 8px;
             border: 1px dashed #ccc;
         }
-        .payment-logo {
-            width: 80px;
-            height: auto;
-            margin-right: 15px;
-        }
-        #payment-methods p {
+        .payment-method {
             display: flex;
+            flex-direction: column;
             align-items: center;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .payment-method i {
+            font-size: 2.5em; /* Ukuran ikon lebih besar */
             margin-bottom: 10px;
+            color: var(--primary-blue);
+        }
+        .payment-method .account-number {
+            margin-bottom: 10px;
+            font-size: 1em;
+            color: var(--secondary-text);
+        }
+        .payment-method button {
+            width: auto;
+            padding: 8px 15px;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        .qr-code-container {
+            text-align: center;
+            margin-top: 20px;
         }
         .qr-code-img {
             width: 100%;
-            max-width: 300px;
-            margin-top: 10px;
+            max-width: 200px;
             border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        #payment-methods h3 {
+            margin-bottom: 20px;
+        }
+        #payment-methods {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            background-color: var(--light-bg);
+            text-align: center;
+        }
+        .payment-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        /* Style untuk ikon OVO */
+        .fa-ovo-custom {
+            font-style: normal;
+            font-weight: bold;
+            color: #4a218d; /* Warna OVO */
+            font-size: 2.5em;
+        }
+        .fa-ovo-custom::before {
+            content: "OVO";
+        }
+        /* Style untuk ikon Gopay */
+        .fa-gopay-custom {
+            font-style: normal;
+            font-weight: bold;
+            color: #00a049; /* Warna Gopay */
+            font-size: 2.5em;
+        }
+        .fa-gopay-custom::before {
+            content: "GO";
         }
     </style>
 </head>
 <body>
+
     <div class="container">
         <h2><i class="fas fa-clipboard-list"></i> Formulir Pemesanan</h2>
+        
         <div id="product-selection">
             <div class="form-group">
                 <label>Pilih Produk:</label>
@@ -234,17 +289,48 @@
         </div>
 
         <div id="payment-methods">
-            <h3><i class="fas fa-money-bill-wave"></i> Metode Pembayaran:</h3>
-            <p><img src="images/dana.png" alt="Logo Dana" class="payment-logo"><strong>Dana:</strong> 0812-3456-7890 (a.n. John Doe)</p>
-            <p><img src="images/ovo.png" alt="Logo OVO" class="payment-logo"><strong>OVO:</strong> 0812-3456-7890 (a.n. John Doe)</p>
-            <p><img src="images/gopay.png" alt="Logo Gopay" class="payment-logo"><strong>Gopay:</strong> 0812-3456-7890 (a.n. John Doe)</p>
-            <p><strong>QRIS:</strong> Scan QR Code di bawah ini:</p>
-            <img src="images/qris.png" alt="QRIS Code" class="qr-code-img">
+            <h3><i class="fas fa-money-bill-wave"></i> Metode Pembayaran</h3>
+            <div class="payment-options">
+                <div class="payment-method">
+                    <i class="fas fa-wallet" style="color: #1a73e8;"></i> <div class="account-number">
+                        <span>0881025907406</span><br>
+                        <span>(a.n. Raymond C.I)</span>
+                    </div>
+                    <button onclick="copyToClipboard('0881025907406')"><i class="fas fa-copy"></i> Salin Nomor</button>
+                </div>
+                <div class="payment-method">
+                    <i class="fas fa-wallet" style="color: #4a218d;"></i> <div class="account-number">
+                        <span>0812-3456-7890</span><br>
+                        <span>(a.n. Raymond C.I)</span>
+                    </div>
+                    <button onclick="copyToClipboard('0881025907406')"><i class="fas fa-copy"></i> Salin Nomor</button>
+                </div>
+                <div class="payment-method">
+                    <i class="fas fa-wallet" style="color: #00a049;"></i> <div class="account-number">
+                        <span>0881025907406</span><br>
+                        <span>(a.n. Raymond C.I)</span>
+                    </div>
+                    <button onclick="copyToClipboard('0881025907406')"><i class="fas fa-copy"></i> Salin Nomor</button>
+                </div>
+                <div class="payment-method qr-code-container">
+                    <strong>QRIS:</strong>
+                    <img src="images/qris.png" alt="QRIS Code" class="qr-code-img">
+                    <p style="font-size: 0.9em; color: #6c757d;">Scan QR Code di atas</p>
+                </div>
+            </div>
         </div>
     </div>
     
     <script>
         let keranjang = [];
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Nomor berhasil disalin: ' + text);
+            }).catch(err => {
+                console.error('Gagal menyalin: ', err);
+            });
+        }
 
         function addToCart() {
             const selectedProducts = document.querySelectorAll('input[name="produk"]:checked');
