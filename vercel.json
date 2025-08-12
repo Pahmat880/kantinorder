@@ -5,5 +5,11 @@
       "source": "/(.*)",
       "destination": "/$1"
     }
-  ]
+  ],
+  "build": {
+    "env": {
+      "NODE_OPTIONS": "--max-old-space-size=256"
+    }
+  },
+  "outputDirectory": "."
 }
