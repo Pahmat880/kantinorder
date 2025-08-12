@@ -1,4 +1,4 @@
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
 
 const transporter = nodemailer.createTransport({
     host: 'mail.privateemail.com',
@@ -34,7 +34,7 @@ export default async function handler(req, res) {
 
         const mailOptions = {
             from: `"Formulir Pemesanan" <${process.env.EMAIL_USER}>`,
-            to: ahmatptt@gmail.com,
+            to: 'ahmatputra312@gmail.com', // Alamat email penerima notifikasi
             subject: `Pesanan Baru #${kodeOrder}`,
             text: emailText
         };
