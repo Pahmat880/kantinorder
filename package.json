@@ -1,16 +1,21 @@
 {
   "name": "nama-proyek-mu",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Formulir pemesanan untuk Vercel Serverless Function",
   "scripts": {
-    "start": "node server.js"
+    "start": "vercel dev",
+    "build": "echo 'Build selesai'"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "vercel",
+    "serverless",
+    "nodejs",
+    "form"
+  ],
+  "author": "Nama Anda",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2",
     "nodemailer": "^6.9.13"
-  }
+  },
+  "type": "module"
 }
