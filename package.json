@@ -15,7 +15,8 @@
   "author": "Nama Anda",
   "license": "ISC",
   "dependencies": {
-    "nodemailer": "^6.9.13"
+    "nodemailer": "^6.9.13",
+    "pg": "^8.11.3"
   },
   "type": "module"
 }
