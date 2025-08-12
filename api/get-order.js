@@ -11,8 +11,12 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: 'Parameter orderCode diperlukan.' });
     }
 
+    if (!process.env.POSTGRES_URL) { // Perubahan di sini
+        return res.status(500).json({ message: 'POSTGRES_URL tidak terkonfigurasi.' });
+    }
+
     const client = new Client({
-        connectionString: process.env.DATABASE_URL,
+        connectionString: process.env.POSTGRES_URL, // Perubahan di sini
     });
 
     try {
@@ -23,7 +27,6 @@ export default async function handler(req, res) {
 
         if (result.rows.length > 0) {
             const orderData = result.rows[0];
-            // Mengubah produk_list dari string JSON kembali ke objek
             orderData.produk_list = JSON.parse(orderData.produk_list);
             res.status(200).json(orderData);
         } else {
@@ -35,4 +38,4 @@ export default async function handler(req, res) {
     } finally {
         await client.end();
     }
-    }
+}
