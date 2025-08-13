@@ -55,6 +55,7 @@
             border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.2s;
+            position: relative;
         }
         .product-list label:hover {
             background-color: #dee2e6;
@@ -64,6 +65,18 @@
             accent-color: var(--primary-blue);
             width: 20px;
             height: 20px;
+        }
+        .product-list .info-icon {
+            position: absolute;
+            right: 15px;
+            top: 12px;
+            color: var(--primary-blue);
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: transform 0.2s;
+        }
+        .product-list .info-icon:hover {
+            transform: scale(1.1);
         }
         input[type="text"], input[type="number"], select {
             width: 100%;
@@ -203,6 +216,47 @@
         .admin-link:hover {
             text-decoration: underline;
         }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+            position: relative;
+        }
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -214,15 +268,15 @@
             <div class="form-group">
                 <label>Pilih Produk:</label>
                 <div class="product-list">
-                    <label><input type="checkbox" name="produk" value="PANEL UNLI PUB" data-price="2000" onchange="updatePanelNameField()"> PANEL UNLI PUB 2K <br><small>Murah, tidak ada garansi, menggunakan Node V21.</small></label>
-                    <label><input type="checkbox" name="produk" value="PANEL UNLI PRIV" data-price="10000" onchange="updatePanelNameField()"> PANEL UNLI PRIV 10K <br><small>Hanya admin, anti colong sc dan anti lag, menggunakan Node V24.</small></label>
-                    <label><input type="checkbox" name="produk" value="Reseller Panel PUB" data-price="8000" onchange="updatePanelNameField()"> Reseller Panel PUB 8K <br><small>R32 C8, bisa jualan panel R32 C8. Menggunakan Web Cpanel.</small></label>
-                    <label><input type="checkbox" name="produk" value="Reseller Panel PRIV" data-price="20000" onchange="updatePanelNameField()"> Reseller Panel PRIV 20K <br><small>Hanya admin, anti colong sc dan anti lag, menggunakan Node V24.</small></small></label>
-                    <label><input type="checkbox" name="produk" value="ADMIN PANEL" data-price="12000" onchange="updatePanelNameField()"> ADMIN PANEL 12K <br><small>R32 C8, bisa open reseller, masuk gb all adp pt kantin.</small></label>
-                    <label><input type="checkbox" name="produk" value="PT PANEL" data-price="25000" onchange="updatePanelNameField()"> PT PANEL 25K <br><small>R32 C8, bisa open reseller dan ADP, masuk gb all adp pt kantin.</small></label>
-                    <label><input type="checkbox" name="produk" value="Bot JPMCH Kantin" data-price="15000" onchange="updatePanelNameField()"> Bot JPMCH Kantin 15K <br><small>140+ CH, tiap ada buyer +2 CH, sudah lumutan 1 bulan.</small></label>
-                    <label><input type="checkbox" name="produk" value="VPS 8Gb C4" data-price="40000" onchange="updatePanelNameField()"> VPS 8Gb C4 = 40K <br><small>Garansi 10H, 2x replace.</small></label>
-                    <label><input type="checkbox" name="produk" value="VPS 16Gb C4" data-price="45000" onchange="updatePanelNameField()"> VPS 16Gb C4 = 45K <br><small>Garansi 10H, 2x replace.</small></label>
+                    <label><input type="checkbox" name="produk" value="PANEL UNLI PUB" data-price="2000" onchange="updatePanelNameField()"> PANEL UNLI PUB <span class="price-display"></span> <i class="fas fa-info-circle info-icon" onclick="event.preventDefault(); showDescription('PANEL UNLI PUB')"></i></label>
+                    <label><input type="checkbox" name="produk" value="PANEL UNLI PRIV" data-price="10000" onchange="updatePanelNameField()"> PANEL UNLI PRIV <span class="price-display"></span> <i class="fas fa-info-circle info-icon" onclick="event.preventDefault(); showDescription('PANEL UNLI PRIV')"></i></label>
+                    <label><input type="checkbox" name="produk" value="Reseller Panel PUB" data-price="8000" onchange="updatePanelNameField()"> Reseller Panel PUB <span class="price-display"></span> <i class="fas fa-info-circle info-icon" onclick="event.preventDefault(); showDescription('Reseller Panel PUB')"></i></label>
+                    <label><input type="checkbox" name="produk" value="Reseller Panel PRIV" data-price="20000" onchange="updatePanelNameField()"> Reseller Panel PRIV <span class="price-display"></span> <i class="fas fa-info-circle info-icon" onclick="event.preventDefault(); showDescription('Reseller Panel PRIV')"></i></label>
+                    <label><input type="checkbox" name="produk" value="ADMIN PANEL" data-price="12000" onchange="updatePanelNameField()"> ADMIN PANEL <span class="price-display"></span> <i class="fas fa-info-circle info-icon" onclick="event.preventDefault(); showDescription('ADMIN PANEL')"></i></label>
+                    <label><input type="checkbox" name="produk" value="PT PANEL" data-price="25000" onchange="updatePanelNameField()"> PT PANEL <span class="price-display"></span> <i class="fas fa-info-circle info-icon" onclick="event.preventDefault(); showDescription('PT PANEL')"></i></label>
+                    <label><input type="checkbox" name="produk" value="Bot JPMCH Kantin" data-price="15000" onchange="updatePanelNameField()"> Bot JPMCH Kantin <span class="price-display"></span> <i class="fas fa-info-circle info-icon" onclick="event.preventDefault(); showDescription('Bot JPMCH Kantin')"></i></label>
+                    <label><input type="checkbox" name="produk" value="VPS 8Gb C4" data-price="40000" onchange="updatePanelNameField()"> VPS 8Gb C4 <span class="price-display"></span> <i class="fas fa-info-circle info-icon" onclick="event.preventDefault(); showDescription('VPS 8Gb C4')"></i></label>
+                    <label><input type="checkbox" name="produk" value="VPS 16Gb C4" data-price="45000" onchange="updatePanelNameField()"> VPS 16Gb C4 <span class="price-display"></span> <i class="fas fa-info-circle info-icon" onclick="event.preventDefault(); showDescription('VPS 16Gb C4')"></i></label>
                 </div>
             </div>
             <button type="button" onclick="addToCart()"><i class="fas fa-plus"></i> Tambahkan ke Keranjang</button>
@@ -339,8 +393,36 @@
         </div>
     </div>
     
+    <div id="description-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h3 id="modal-title"></h3>
+            <p id="modal-description"></p>
+        </div>
+    </div>
+
     <script>
-        const specialProducts = ["Reseller Panel PUB", "Bot JPMCH Kantin", "VPS 8Gb C4", "VPS 16Gb C4"];
+        const specialProducts = ["Reseller Panel PUB", "Reseller Panel PRIV", "Bot JPMCH Kantin", "VPS 8Gb C4", "VPS 16Gb C4"];
+        const productDescriptions = {
+            "PANEL UNLI PUB": "> murah tidak ada garansi,reff dll, kalau kena rusuh ya namanya 2K\n> fresh (11 Agustus)\n> Gaada garansi, karena murah \n> Tidak ada complain \n> *NODE V21*",
+            "PANEL UNLI PRIV": "> benevit\n> cuma gw admin \n> anti colong sc\n> anti lag\n> anti del server\n> Fresh (11 Agustus)\n> *NODE V24*",
+            "Reseller Panel PUB": "> benevit\n> R32 C8\n> bisa jualan panel R32 C8\n> ANTI KENON (MENGGUNAKAN WEB CPANEL) https://webcpanelkandig.vercel.app/\n> fresh (11 Agustus)",
+            "Reseller Panel PRIV": "> benevit\n> R32 C8\n> bisa jualan panel \n> bisa open reseller\n> Masuk gb all adp pt kantin\n> fresh (11 Agustus)",
+            "ADMIN PANEL": "> benevit\n> R32 C8\n> bisa jualan panel \n> bisa open reseller\n> Masuk gb all adp pt kantin\n> fresh (11 Agustus)",
+            "PT PANEL": "> benevit\n> R32 C8\n> bisa jualan panel \n> bisa open reseller\n> bisa open ADP \n> Masuk gb all adp pt kantin\n> fresh (11 Agustus)",
+            "Bot JPMCH Kantin": "> benevit\n> bisa laku\n> 140+ CH\n> Tiap ada buyyer +2 CH\n> Masuk Info Bot Kantin\n> Udah di Lumutin 1Bulan ( Harusnya Aman)",
+            "VPS 8Gb C4": "> Garansi 10H 2X Replace",
+            "VPS 16Gb C4": "> Garansi 10H 2X Replace"
+        };
+        
+        // Memuat harga saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            const prices = document.querySelectorAll('.product-list label');
+            prices.forEach(label => {
+                const price = parseInt(label.querySelector('input').dataset.price);
+                label.querySelector('.price-display').innerText = ` (Rp ${price.toLocaleString('id-ID')})`;
+            });
+        });
 
         function updatePanelNameField() {
             const checkboxes = document.querySelectorAll('input[name="produk"]:checked');
@@ -357,9 +439,32 @@
             if (isSpecialProductSelected) {
                 namaPanelLabel.innerHTML = '<i class="fas fa-sticky-note"></i> Catatan:';
                 namaPanelInput.placeholder = 'Masukkan catatan Anda di sini';
+                namaPanelInput.removeAttribute('required'); // Menghilangkan required
             } else {
                 namaPanelLabel.innerHTML = '<i class="fas fa-user-circle"></i> Nama Panel:';
                 namaPanelInput.placeholder = 'Masukkan nama panel Anda';
+                namaPanelInput.setAttribute('required', 'required'); // Mengembalikan required
+            }
+        }
+
+        function showDescription(productName) {
+            const modal = document.getElementById('description-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalDescription = document.getElementById('modal-description');
+            
+            modalTitle.innerText = productName;
+            modalDescription.innerText = productDescriptions[productName];
+            
+            modal.style.display = 'flex';
+        }
+
+        document.querySelector('.close-button').onclick = function() {
+            document.getElementById('description-modal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('description-modal')) {
+                document.getElementById('description-modal').style.display = 'none';
             }
         }
 
