@@ -49,7 +49,7 @@
             font-weight: normal;
             margin-bottom: 12px;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             background-color: #e9ecef;
             padding: 10px;
             border-radius: 8px;
@@ -214,19 +214,15 @@
             <div class="form-group">
                 <label>Pilih Produk:</label>
                 <div class="product-list">
-                    <label><input type="checkbox" name="produk" value="Panel Publik" data-price="2000"> Panel Publik (Rp 2.000)</label>
-                    <label><input type="checkbox" name="produk" value="Admin Panel" data-price="10000"> Admin Panel (Rp 10.000)</label>
-                    <label><input type="checkbox" name="produk" value="Pt Panel" data-price="12000"> Pt Panel (Rp 12.000)</label>
-                    <label><input type="checkbox" name="produk" value="Owner Panel" data-price="25000"> Owner Panel (Rp 25.000)</label>
-                    <label><input type="checkbox" name="produk" value="Panel Private" data-price="10000"> Panel Private (Rp 10.000)</label>
-                    <label><input type="checkbox" name="produk" value="Ress Panel Private" data-price="20000"> Ress Panel Private (Rp 20.000)</label>
-                    <label><input type="checkbox" name="produk" value="Ress Panel Publik" data-price="8000"> Ress Panel Publik (Rp 8.000)</label>
-                    <label><input type="checkbox" name="produk" value="Patungan Ress Panel Publik" data-price="2000"> Patungan Ress Panel Publik (Rp 2.000)</label>
-                    <label><input type="checkbox" name="produk" value="Patungan Ress Panel Private" data-price="7000"> Patungan Ress Panel Private (Rp 7.000)</label>
-                    <label><input type="checkbox" name="produk" value="Patungan Admin Panel" data-price="3000"> Patungan Admin Panel (Rp 3.000)</label>
-                    <label><input type="checkbox" name="produk" value="Patungan PT Panel" data-price="10000"> Patungan PT Panel (Rp 10.000)</label>
-                    <label><input type="checkbox" name="produk" value="Patungan Owner Panel" data-price="12000"> Patungan Owner Panel (Rp 12.000)</label>
-                    <label><input type="checkbox" name="produk" value="Tangan Kanan Panel" data-price="15000"> Tangan Kanan Panel (Rp 15.000)</label>
+                    <label><input type="checkbox" name="produk" value="PANEL UNLI PUB" data-price="2000" onchange="updatePanelNameField()"> PANEL UNLI PUB 2K <br><small>Murah, tidak ada garansi, menggunakan Node V21.</small></label>
+                    <label><input type="checkbox" name="produk" value="PANEL UNLI PRIV" data-price="10000" onchange="updatePanelNameField()"> PANEL UNLI PRIV 10K <br><small>Hanya admin, anti colong sc dan anti lag, menggunakan Node V24.</small></label>
+                    <label><input type="checkbox" name="produk" value="Reseller Panel PUB" data-price="8000" onchange="updatePanelNameField()"> Reseller Panel PUB 8K <br><small>R32 C8, bisa jualan panel R32 C8. Menggunakan Web Cpanel.</small></label>
+                    <label><input type="checkbox" name="produk" value="Reseller Panel PRIV" data-price="20000" onchange="updatePanelNameField()"> Reseller Panel PRIV 20K <br><small>Hanya admin, anti colong sc dan anti lag, menggunakan Node V24.</small></small></label>
+                    <label><input type="checkbox" name="produk" value="ADMIN PANEL" data-price="12000" onchange="updatePanelNameField()"> ADMIN PANEL 12K <br><small>R32 C8, bisa open reseller, masuk gb all adp pt kantin.</small></label>
+                    <label><input type="checkbox" name="produk" value="PT PANEL" data-price="25000" onchange="updatePanelNameField()"> PT PANEL 25K <br><small>R32 C8, bisa open reseller dan ADP, masuk gb all adp pt kantin.</small></label>
+                    <label><input type="checkbox" name="produk" value="Bot JPMCH Kantin" data-price="15000" onchange="updatePanelNameField()"> Bot JPMCH Kantin 15K <br><small>140+ CH, tiap ada buyer +2 CH, sudah lumutan 1 bulan.</small></label>
+                    <label><input type="checkbox" name="produk" value="VPS 8Gb C4" data-price="40000" onchange="updatePanelNameField()"> VPS 8Gb C4 = 40K <br><small>Garansi 10H, 2x replace.</small></label>
+                    <label><input type="checkbox" name="produk" value="VPS 16Gb C4" data-price="45000" onchange="updatePanelNameField()"> VPS 16Gb C4 = 45K <br><small>Garansi 10H, 2x replace.</small></label>
                 </div>
             </div>
             <button type="button" onclick="addToCart()"><i class="fas fa-plus"></i> Tambahkan ke Keranjang</button>
@@ -344,6 +340,29 @@
     </div>
     
     <script>
+        const specialProducts = ["Reseller Panel PUB", "Bot JPMCH Kantin", "VPS 8Gb C4", "VPS 16Gb C4"];
+
+        function updatePanelNameField() {
+            const checkboxes = document.querySelectorAll('input[name="produk"]:checked');
+            const namaPanelLabel = document.querySelector('label[for="namaPanel"]');
+            const namaPanelInput = document.getElementById('namaPanel');
+            let isSpecialProductSelected = false;
+            
+            checkboxes.forEach(cb => {
+                if (specialProducts.includes(cb.value)) {
+                    isSpecialProductSelected = true;
+                }
+            });
+
+            if (isSpecialProductSelected) {
+                namaPanelLabel.innerHTML = '<i class="fas fa-sticky-note"></i> Catatan:';
+                namaPanelInput.placeholder = 'Masukkan catatan Anda di sini';
+            } else {
+                namaPanelLabel.innerHTML = '<i class="fas fa-user-circle"></i> Nama Panel:';
+                namaPanelInput.placeholder = 'Masukkan nama panel Anda';
+            }
+        }
+
         let keranjang = [];
 
         function copyToClipboard(text) {
@@ -471,7 +490,7 @@ Terima kasih atas pesanannya.`;
         });
 
         document.getElementById('send-order-btn').addEventListener('click', () => {
-            const nomorWhatsApp = '6282135236285'; // Nomor admin
+            const nomorWhatsApp = '6282135236285';
             const pesan = document.getElementById('whatsapp-message-box').innerText;
             const whatsappLink = `https://api.whatsapp.com/send?phone=${nomorWhatsApp}&text=${encodeURIComponent(pesan)}`;
             window.open(whatsappLink, '_blank');
