@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer';
 import { Client } from 'pg';
 
+// Konfigurasi Nodemailer dengan perbaikan sertifikat TLS
 const transporter = nodemailer.createTransport({
     host: 'mail.privateemail.com',
     port: 465,
@@ -8,6 +9,10 @@ const transporter = nodemailer.createTransport({
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
+    },
+    tls: {
+        // Opsi ini menonaktifkan validasi sertifikat, solusi cepat untuk 'SELF_SIGNED_CERT_IN_CHAIN'
+        rejectUnauthorized: false
     }
 });
 
@@ -16,12 +21,17 @@ export default async function handler(req, res) {
         return res.status(405).json({ message: 'Metode tidak diizinkan.' });
     }
 
-    if (!process.env.POSTGRES_URL) { // Perubahan di sini
+    if (!process.env.POSTGRES_URL) {
         return res.status(500).json({ message: 'POSTGRES_URL tidak terkonfigurasi.' });
     }
 
+    // Konfigurasi Client pg dengan perbaikan sertifikat SSL
     const client = new Client({
-        connectionString: process.env.POSTGRES_URL, // Perubahan di sini
+        connectionString: process.env.POSTGRES_URL,
+        ssl: {
+            // Menonaktifkan validasi sertifikat untuk koneksi database
+            rejectUnauthorized: false
+        }
     });
 
     try {
