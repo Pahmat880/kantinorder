@@ -16,7 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "nodemailer": "^6.9.13",
-    "pg": "^8.11.3"
+    "mongodb": "^6.5.0"
   },
   "type": "module"
 }
