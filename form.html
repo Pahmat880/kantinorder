@@ -106,7 +106,7 @@
         .btn-secondary:hover {
             background-color: #0056b3;
         }
-        .cart-summary, .order-summary, #payment-methods {
+        .cart-summary, .order-summary {
             display: none;
             margin-top: 20px;
             padding: 20px;
@@ -147,44 +147,7 @@
             border-radius: 8px;
             border: 1px dashed #ccc;
         }
-        .payment-method {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .payment-method i {
-            font-size: 2.5em; /* Ukuran ikon lebih besar */
-            margin-bottom: 10px;
-            color: var(--primary-blue);
-        }
-        .payment-method .account-number {
-            margin-bottom: 10px;
-            font-size: 1em;
-            color: var(--secondary-text);
-        }
-        .payment-method button {
-            width: auto;
-            padding: 8px 15px;
-            font-size: 0.9em;
-            margin-top: 5px;
-        }
-        .qr-code-container {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .qr-code-img {
-            width: 100%;
-            max-width: 200px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-        #payment-methods h3 {
-            margin-bottom: 20px;
-        }
-        #payment-methods {
-            display: none;
+        #payment-details {
             margin-top: 20px;
             padding: 20px;
             border: 1px solid #e9ecef;
@@ -192,30 +155,53 @@
             background-color: var(--light-bg);
             text-align: center;
         }
-        .payment-options {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
+        .payment-info {
+            display: none;
+            margin-bottom: 20px;
         }
-        /* Style untuk ikon OVO */
-        .fa-ovo-custom {
-            font-style: normal;
-            font-weight: bold;
-            color: #4a218d; /* Warna OVO */
+        .payment-info h4 {
+            margin-top: 0;
+            color: var(--primary-blue);
+        }
+        .payment-info i {
             font-size: 2.5em;
+            margin-bottom: 10px;
         }
-        .fa-ovo-custom::before {
-            content: "OVO";
-        }
-        /* Style untuk ikon Gopay */
-        .fa-gopay-custom {
-            font-style: normal;
+        .payment-info .account-number {
+            font-size: 1.1em;
             font-weight: bold;
-            color: #00a049; /* Warna Gopay */
-            font-size: 2.5em;
+            margin: 5px 0;
         }
-        .fa-gopay-custom::before {
-            content: "GO";
+        .payment-info .account-name {
+            font-size: 0.9em;
+            color: var(--secondary-text);
+            margin-bottom: 10px;
+        }
+        .qr-code-img {
+            width: 100%;
+            max-width: 200px;
+            border-radius: 8px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .instruction-list {
+            list-style-type: none;
+            padding: 0;
+            text-align: left;
+            font-size: 0.9em;
+            color: var(--dark-text);
+        }
+        .instruction-text {
+            font-weight: bold;
+            color: var(--primary-blue);
+            margin-top: 20px;
+        }
+        .admin-link {
+            text-decoration: none;
+            color: var(--primary-green);
+        }
+        .admin-link:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -261,14 +247,79 @@
                     <input type="text" id="namaPanel" name="namaPanel" placeholder="Masukkan nama panel Anda" required>
                 </div>
                 <div class="form-group">
-                    <label for="metodeBayar"><i class="fas fa-credit-card"></i> Metode Pembayaran:</label>
+                    <label><i class="fas fa-credit-card"></i> Metode Pembayaran:</label>
                     <div class="product-list">
-                        <label><input type="radio" name="metodeBayar" value="Qris" required> Qris</label>
-                        <label><input type="radio" name="metodeBayar" value="Dana"> Dana</label>
-                        <label><input type="radio" name="metodeBayar" value="Ovo"> Ovo</label>
-                        <label><input type="radio" name="metodeBayar" value="Gopay"> Gopay</label>
+                        <label><input type="radio" name="metodeBayar" value="Qris" required onchange="showPaymentDetails('Qris')"> Qris</label>
+                        <label><input type="radio" name="metodeBayar" value="Dana" onchange="showPaymentDetails('Dana')"> Dana</label>
+                        <label><input type="radio" name="metodeBayar" value="Ovo" onchange="showPaymentDetails('Ovo')"> Ovo</label>
+                        <label><input type="radio" name="metodeBayar" value="Gopay" onchange="showPaymentDetails('Gopay')"> Gopay</label>
                     </div>
                 </div>
+
+                <div id="payment-details">
+                    <div id="payment-info-Qris" class="payment-info">
+                        <h4><i class="fas fa-qrcode" style="color: #007bff;"></i> Bayar dengan QRIS</h4>
+                        <img src="images/qris.png" alt="QRIS Code" class="qr-code-img">
+                        <p style="font-size: 0.9em;">Scan QR Code di atas menggunakan aplikasi bank atau e-wallet Anda.</p>
+                        <p><strong>Instruksi:</strong></p>
+                        <ul class="instruction-list">
+                            <li>1. Buka aplikasi pembayaran Anda (seperti Dana, OVO, GoPay, dll.).</li>
+                            <li>2. Pilih menu "Bayar" atau "Scan QR".</li>
+                            <li>3. Scan QR Code di atas.</li>
+                            <li>4. Pastikan jumlah pembayaran sudah benar.</li>
+                            <li>5. Lakukan pembayaran.</li>
+                        </ul>
+                    </div>
+
+                    <div id="payment-info-Dana" class="payment-info">
+                        <h4><i class="fas fa-wallet" style="color: #1a73e8;"></i> Bayar dengan DANA</h4>
+                        <div class="account-number" id="dana-number">0881025907406</div>
+                        <div class="account-name">(a.n. Raymond C.I)</div>
+                        <button type="button" onclick="copyToClipboard('0881025907406')">
+                            <i class="fas fa-copy"></i> Salin Nomor
+                        </button>
+                        <p><strong>Instruksi:</strong></p>
+                        <ul class="instruction-list">
+                            <li>1. Salin nomor DANA di atas.</li>
+                            <li>2. Buka aplikasi DANA Anda.</li>
+                            <li>3. Lakukan transfer ke nomor yang telah disalin.</li>
+                            <li>4. Pastikan nama penerima sudah benar.</li>
+                        </ul>
+                    </div>
+
+                    <div id="payment-info-Ovo" class="payment-info">
+                        <h4><i class="fas fa-wallet" style="color: #4a218d;"></i> Bayar dengan OVO</h4>
+                        <div class="account-number" id="ovo-number">0881025907406</div>
+                        <div class="account-name">(a.n. Raymond C.I)</div>
+                        <button type="button" onclick="copyToClipboard('0881025907406')">
+                            <i class="fas fa-copy"></i> Salin Nomor
+                        </button>
+                        <p><strong>Instruksi:</strong></p>
+                        <ul class="instruction-list">
+                            <li>1. Salin nomor OVO di atas.</li>
+                            <li>2. Buka aplikasi OVO Anda.</li>
+                            <li>3. Lakukan transfer ke nomor yang telah disalin.</li>
+                            <li>4. Pastikan nama penerima sudah benar.</li>
+                        </ul>
+                    </div>
+
+                    <div id="payment-info-Gopay" class="payment-info">
+                        <h4><i class="fas fa-wallet" style="color: #00a049;"></i> Bayar dengan Gopay</h4>
+                        <div class="account-number" id="gopay-number">0881025907406</div>
+                        <div class="account-name">(a.n. Raymond C.I)</div>
+                        <button type="button" onclick="copyToClipboard('0881025907406')">
+                            <i class="fas fa-copy"></i> Salin Nomor
+                        </button>
+                        <p><strong>Instruksi:</strong></p>
+                        <ul class="instruction-list">
+                            <li>1. Salin nomor Gopay di atas.</li>
+                            <li>2. Buka aplikasi Gopay Anda.</li>
+                            <li>3. Lakukan transfer ke nomor yang telah disalin.</li>
+                            <li>4. Pastikan nama penerima sudah benar.</li>
+                        </ul>
+                    </div>
+                </div>
+
                 <button type="submit"><i class="fas fa-check-circle"></i> Konfirmasi & Submit</button>
             </div>
         </form>
@@ -285,39 +336,10 @@
             <p>Berikut teks yang akan dikirim ke WhatsApp:</p>
             <div id="whatsapp-message-box"></div>
             <button id="send-order-btn"><i class="fab fa-whatsapp"></i> Kirim Orderan</button>
-            <button id="show-payment-btn" class="btn-secondary"><i class="fas fa-info-circle"></i> Tampilkan Metode Pembayaran</button>
-        </div>
-
-        <div id="payment-methods">
-            <h3><i class="fas fa-money-bill-wave"></i> Metode Pembayaran</h3>
-            <div class="payment-options">
-                <div class="payment-method">
-                    <i class="fas fa-wallet" style="color: #1a73e8;"></i> <div class="account-number">
-                        <span>0881025907406</span><br>
-                        <span>(a.n. Raymond C.I)</span>
-                    </div>
-                    <button onclick="copyToClipboard('0881025907406')"><i class="fas fa-copy"></i> Salin Nomor</button>
-                </div>
-                <div class="payment-method">
-                    <i class="fas fa-wallet" style="color: #4a218d;"></i> <div class="account-number">
-                        <span>0812-3456-7890</span><br>
-                        <span>(a.n. Raymond C.I)</span>
-                    </div>
-                    <button onclick="copyToClipboard('0881025907406')"><i class="fas fa-copy"></i> Salin Nomor</button>
-                </div>
-                <div class="payment-method">
-                    <i class="fas fa-wallet" style="color: #00a049;"></i> <div class="account-number">
-                        <span>0881025907406</span><br>
-                        <span>(a.n. Raymond C.I)</span>
-                    </div>
-                    <button onclick="copyToClipboard('0881025907406')"><i class="fas fa-copy"></i> Salin Nomor</button>
-                </div>
-                <div class="payment-method qr-code-container">
-                    <strong>QRIS:</strong>
-                    <img src="images/qris.png" alt="QRIS Code" class="qr-code-img">
-                    <p style="font-size: 0.9em; color: #6c757d;">Scan QR Code di atas</p>
-                </div>
-            </div>
+            <p class="instruction-text">
+                <i class="fas fa-info-circle"></i> Setelah melakukan pembayaran, harap kirim bukti transfer ke nomor admin: <br>
+                <a href="https://wa.me/6282135236285" target="_blank" class="admin-link">6282135236285</a>
+            </p>
         </div>
     </div>
     
@@ -330,6 +352,16 @@
             }).catch(err => {
                 console.error('Gagal menyalin: ', err);
             });
+        }
+
+        function showPaymentDetails(method) {
+            const allPaymentInfos = document.querySelectorAll('.payment-info');
+            allPaymentInfos.forEach(info => info.style.display = 'none');
+            
+            const selectedInfo = document.getElementById(`payment-info-${method}`);
+            if (selectedInfo) {
+                selectedInfo.style.display = 'block';
+            }
         }
 
         function addToCart() {
@@ -439,15 +471,10 @@ Terima kasih atas pesanannya.`;
         });
 
         document.getElementById('send-order-btn').addEventListener('click', () => {
-            const nomorWhatsApp = '6282135236285';
+            const nomorWhatsApp = '6282135236285'; // Nomor admin
             const pesan = document.getElementById('whatsapp-message-box').innerText;
             const whatsappLink = `https://api.whatsapp.com/send?phone=${nomorWhatsApp}&text=${encodeURIComponent(pesan)}`;
             window.open(whatsappLink, '_blank');
-        });
-
-        document.getElementById('show-payment-btn').addEventListener('click', () => {
-            const paymentMethods = document.getElementById('payment-methods');
-            paymentMethods.style.display = paymentMethods.style.display === 'block' ? 'none' : 'block';
         });
     </script>
 </body>
