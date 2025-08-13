@@ -1,4 +1,4 @@
-import { Client } from 'pg';
+import { MongoClient } from 'mongodb';
 
 export default async function handler(req, res) {
     if (req.method !== 'GET') {
@@ -11,28 +11,21 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: 'Parameter orderCode diperlukan.' });
     }
 
-    if (!process.env.POSTGRES_URL) {
-        return res.status(500).json({ message: 'POSTGRES_URL tidak terkonfigurasi.' });
+    if (!process.env.MONGODB_URI) {
+        return res.status(500).json({ message: 'MONGODB_URI tidak terkonfigurasi.' });
     }
 
-    // Konfigurasi Client pg dengan perbaikan sertifikat SSL
-    const client = new Client({
-        connectionString: process.env.POSTGRES_URL,
-        ssl: {
-            // Menonaktifkan validasi sertifikat untuk koneksi database
-            rejectUnauthorized: false
-        }
-    });
-
+    let client;
     try {
+        client = new MongoClient(process.env.MONGODB_URI);
         await client.connect();
 
-        const query = 'SELECT * FROM orders WHERE order_code = $1';
-        const result = await client.query(query, [orderCode]);
+        const db = client.db('Cluster0'); // Nama database di sini
+        const ordersCollection = db.collection('orders');
 
-        if (result.rows.length > 0) {
-            const orderData = result.rows[0];
-            orderData.produk_list = JSON.parse(orderData.produk_list);
+        const orderData = await ordersCollection.findOne({ order_code: orderCode });
+
+        if (orderData) {
             res.status(200).json(orderData);
         } else {
             res.status(404).json({ message: 'Kode order tidak ditemukan.' });
@@ -41,6 +34,8 @@ export default async function handler(req, res) {
         console.error('Terjadi kesalahan:', error);
         res.status(500).json({ message: 'Gagal mengambil data dari database.', error: error.message });
     } finally {
-        await client.end();
+        if (client) {
+            await client.close();
+        }
     }
-            }
+}
