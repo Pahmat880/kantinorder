@@ -1,7 +1,6 @@
 import nodemailer from 'nodemailer';
-import { Client } from 'pg';
+import { MongoClient } from 'mongodb';
 
-// Konfigurasi Nodemailer dengan perbaikan sertifikat TLS
 const transporter = nodemailer.createTransport({
     host: 'mail.privateemail.com',
     port: 465,
@@ -11,7 +10,6 @@ const transporter = nodemailer.createTransport({
         pass: process.env.EMAIL_PASS
     },
     tls: {
-        // Opsi ini menonaktifkan validasi sertifikat, solusi cepat untuk 'SELF_SIGNED_CERT_IN_CHAIN'
         rejectUnauthorized: false
     }
 });
@@ -21,33 +19,32 @@ export default async function handler(req, res) {
         return res.status(405).json({ message: 'Metode tidak diizinkan.' });
     }
 
-    if (!process.env.POSTGRES_URL) {
-        return res.status(500).json({ message: 'POSTGRES_URL tidak terkonfigurasi.' });
+    if (!process.env.MONGODB_URI) {
+        return res.status(500).json({ message: 'MONGODB_URI tidak terkonfigurasi.' });
     }
 
-    // Konfigurasi Client pg dengan perbaikan sertifikat SSL
-    const client = new Client({
-        connectionString: process.env.POSTGRES_URL,
-        ssl: {
-            // Menonaktifkan validasi sertifikat untuk koneksi database
-            rejectUnauthorized: false
-        }
-    });
-
+    let client;
     try {
+        client = new MongoClient(process.env.MONGODB_URI);
         await client.connect();
+
+        const db = client.db('Cluster0'); // Nama database di sini
+        const ordersCollection = db.collection('orders');
 
         const { produkList, totalHarga, namaPanel, metodeBayar, kodeOrder, tanggal } = req.body;
 
-        const query = `
-            INSERT INTO orders (order_code, nama_panel, produk_list, total_harga, metode_pembayaran, tanggal)
-            VALUES ($1, $2, $3, $4, $5, $6)
-            ON CONFLICT (order_code) DO NOTHING;
-        `;
-        const values = [kodeOrder, namaPanel, JSON.stringify(produkList), totalHarga, metodeBayar, tanggal];
+        const orderData = {
+            order_code: kodeOrder,
+            nama_panel: namaPanel,
+            produk_list: produkList,
+            total_harga: totalHarga,
+            metode_pembayaran: metodeBayar,
+            tanggal: tanggal,
+            created_at: new Date()
+        };
 
-        await client.query(query, values);
-        
+        await ordersCollection.insertOne(orderData);
+
         const produkItems = produkList.map(item => `  - ${item.nama} (Rp ${item.harga.toLocaleString('id-ID')})`).join('\n');
 
         const emailText = `
@@ -77,6 +74,8 @@ export default async function handler(req, res) {
         console.error('Terjadi kesalahan:', error);
         res.status(500).json({ message: 'Gagal memproses pesanan.', error: error.message });
     } finally {
-        await client.end();
+        if (client) {
+            await client.close();
+        }
     }
 }
