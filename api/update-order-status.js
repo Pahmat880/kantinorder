@@ -1,9 +1,9 @@
-const { MongoClient } = require('mongodb');
+import { MongoClient } from 'mongodb';
 
 const MONGODB_URI = process.env.MONGODB_URI;
 const MONGODB_DB_NAME = 'Cluster0'; 
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ message: 'Metode tidak diizinkan.' });
     }
@@ -44,4 +44,4 @@ module.exports = async (req, res) => {
             await client.close();
         }
     }
-};
+}
