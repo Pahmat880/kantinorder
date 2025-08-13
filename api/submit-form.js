@@ -28,7 +28,7 @@ export default async function handler(req, res) {
         client = new MongoClient(process.env.MONGODB_URI);
         await client.connect();
 
-        const db = client.db('Cluster0'); // Nama database di sini
+        const db = client.db('Cluster0');
         const ordersCollection = db.collection('orders');
 
         const { produkList, totalHarga, namaPanel, metodeBayar, kodeOrder, tanggal } = req.body;
@@ -40,6 +40,8 @@ export default async function handler(req, res) {
             total_harga: totalHarga,
             metode_pembayaran: metodeBayar,
             tanggal: tanggal,
+            // Menambahkan status 'pending' untuk integrasi bot
+            status: 'pending', 
             created_at: new Date()
         };
 
