@@ -11,12 +11,17 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: 'Parameter orderCode diperlukan.' });
     }
 
-    if (!process.env.POSTGRES_URL) { // Perubahan di sini
+    if (!process.env.POSTGRES_URL) {
         return res.status(500).json({ message: 'POSTGRES_URL tidak terkonfigurasi.' });
     }
 
+    // Konfigurasi Client pg dengan perbaikan sertifikat SSL
     const client = new Client({
-        connectionString: process.env.POSTGRES_URL, // Perubahan di sini
+        connectionString: process.env.POSTGRES_URL,
+        ssl: {
+            // Menonaktifkan validasi sertifikat untuk koneksi database
+            rejectUnauthorized: false
+        }
     });
 
     try {
@@ -38,4 +43,4 @@ export default async function handler(req, res) {
     } finally {
         await client.end();
     }
-}
+            }
