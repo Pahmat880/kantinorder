@@ -216,9 +216,11 @@
         .admin-link:hover {
             text-decoration: underline;
         }
+
+        /* Modal Styles */
         .modal {
             position: fixed;
-            z-index: 1000;
+            z-index: 1;
             left: 0;
             top: 0;
             width: 100%;
@@ -232,14 +234,13 @@
         .modal-content {
             background-color: #fefefe;
             margin: auto;
-            padding: 25px;
+            padding: 20px;
             border: 1px solid #888;
             width: 80%;
             max-width: 400px;
             border-radius: 12px;
             box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
             position: relative;
-            text-align: center;
         }
         .close-button {
             color: #aaa;
@@ -256,74 +257,9 @@
             text-decoration: none;
             cursor: pointer;
         }
-        .modal-content h3 {
-            color: var(--primary-blue);
-        }
-        .modal-content p {
-            font-size: 1em;
-            color: var(--secondary-text);
-        }
-        .modal-content a {
-            color: var(--primary-green);
-            font-weight: bold;
-            text-decoration: none;
-        }
-        .modal-content a:hover {
-            text-decoration: underline;
-        }
-
-        .ticker-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: #ffc107;
-            color: var(--dark-text);
-            padding: 10px 0;
-            white-space: nowrap;
-            overflow: hidden;
-            z-index: 999;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        .ticker-text {
-            display: inline-block;
-            padding-left: 100%;
-            animation: ticker 20s linear infinite;
-        }
-        @keyframes ticker {
-            0%   { transform: translate(0, 0); }
-            100% { transform: translate(-100%, 0); }
-        }
     </style>
 </head>
 <body>
-
-    <div class="ticker-bar">
-        <div class="ticker-text">
-            <i class="fas fa-exclamation-triangle"></i> PENTING: WhatsApp admin sedang bermasalah. Untuk konfirmasi transaksi, silakan hubungi via Telegram: t.me/Matzz0
-        </div>
-    </div>
-    
-    <div id="description-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <h3 id="modal-title"></h3>
-            <p id="modal-description"></p>
-        </div>
-    </div>
-    
-    <div id="info-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <h3><i class="fas fa-exclamation-triangle" style="color: #ffc107;"></i> Pemberitahuan Penting</h3>
-            <p>WhatsApp admin sedang mengalami masalah. Untuk konfirmasi transaksi, silakan hubungi kami via Telegram.</p>
-            <p>
-                <a href="https://t.me/Matzz0" target="_blank">
-                    <i class="fab fa-telegram-plane"></i> Hubungi via Telegram
-                </a>
-            </p>
-        </div>
-    </div>
 
     <div class="container">
         <h2><i class="fas fa-clipboard-list"></i> Formulir Pemesanan</h2>
@@ -359,10 +295,6 @@
                 <div class="form-group">
                     <label for="namaPanel"><i class="fas fa-user-circle"></i> Nama Panel:</label>
                     <input type="text" id="namaPanel" name="namaPanel" placeholder="Masukkan nama panel Anda" required>
-                </div>
-                <div class="form-group">
-                    <label for="contact"><i class="fas fa-phone-alt"></i> Kontak yang bisa dihubungi:</label>
-                    <input type="text" id="contact" name="contact" placeholder="Nomor WA atau username Telegram" required>
                 </div>
                 <div class="form-group">
                     <label><i class="fas fa-credit-card"></i> Metode Pembayaran:</label>
@@ -447,7 +379,6 @@
             <p><strong>Produk:</strong> <span id="summary-produk"></span></p>
             <p><strong>Total Harga:</strong> <span id="summary-harga"></span></p>
             <p><strong>Nama Panel:</strong> <span id="summary-nama-panel"></span></p>
-            <p><strong>Kontak:</strong> <span id="summary-contact"></span></p>
             <p><strong>Metode Pembayaran:</strong> <span id="summary-metode-bayar"></span></p>
             <p><strong>Tanggal Order:</strong> <span id="summary-tanggal"></span></p>
             <p><strong>Kode Order:</strong> <span id="summary-kode-order"></span></p>
@@ -457,7 +388,7 @@
             <button id="send-order-btn"><i class="fab fa-whatsapp"></i> Kirim Orderan</button>
             <p class="instruction-text">
                 <i class="fas fa-info-circle"></i> Setelah melakukan pembayaran, harap kirim bukti transfer ke nomor admin: <br>
-                <a href="https://wa.me/6282135236285" target="_blank" class="admin-link">6282135236285</a> atau via Telegram: <a href="https://t.me/Matzz0" target="_blank" class="admin-link">t.me/Matzz0</a>
+                <a href="https://wa.me/6282135236285" target="_blank" class="admin-link">6282135236285</a>
             </p>
         </div>
     </div>
@@ -467,19 +398,6 @@
             <span class="close-button">&times;</span>
             <h3 id="modal-title"></h3>
             <p id="modal-description"></p>
-        </div>
-    </div>
-    
-    <div id="info-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <h3><i class="fas fa-exclamation-triangle" style="color: #ffc107;"></i> Pemberitahuan Penting</h3>
-            <p>WhatsApp admin sedang mengalami masalah. Untuk konfirmasi transaksi, silakan hubungi kami via Telegram.</p>
-            <p>
-                <a href="https://t.me/Matzz0" target="_blank">
-                    <i class="fab fa-telegram-plane"></i> Hubungi via Telegram
-                </a>
-            </p>
         </div>
     </div>
 
@@ -497,16 +415,13 @@
             "VPS 16Gb C4": "> Garansi 10H 2X Replace"
         };
         
+        // Memuat harga saat halaman dimuat
         document.addEventListener('DOMContentLoaded', () => {
             const prices = document.querySelectorAll('.product-list label');
             prices.forEach(label => {
                 const price = parseInt(label.querySelector('input').dataset.price);
-                const priceDisplay = document.createElement('span');
-                priceDisplay.className = 'price-display';
-                priceDisplay.innerText = ` (Rp ${price.toLocaleString('id-ID')})`;
-                label.insertBefore(priceDisplay, label.querySelector('.info-icon'));
+                label.querySelector('.price-display').innerText = ` (Rp ${price.toLocaleString('id-ID')})`;
             });
-            document.getElementById('info-modal').style.display = 'flex';
         });
 
         function updatePanelNameField() {
@@ -524,11 +439,11 @@
             if (isSpecialProductSelected) {
                 namaPanelLabel.innerHTML = '<i class="fas fa-sticky-note"></i> Catatan:';
                 namaPanelInput.placeholder = 'Masukkan catatan Anda di sini';
-                namaPanelInput.removeAttribute('required');
+                namaPanelInput.removeAttribute('required'); // Menghilangkan required
             } else {
                 namaPanelLabel.innerHTML = '<i class="fas fa-user-circle"></i> Nama Panel:';
                 namaPanelInput.placeholder = 'Masukkan nama panel Anda';
-                namaPanelInput.setAttribute('required', 'required');
+                namaPanelInput.setAttribute('required', 'required'); // Mengembalikan required
             }
         }
 
@@ -543,19 +458,13 @@
             modal.style.display = 'flex';
         }
 
-        document.querySelector('#description-modal .close-button').onclick = function() {
+        document.querySelector('.close-button').onclick = function() {
             document.getElementById('description-modal').style.display = 'none';
-        }
-        document.querySelector('#info-modal .close-button').onclick = function() {
-            document.getElementById('info-modal').style.display = 'none';
         }
 
         window.onclick = function(event) {
             if (event.target == document.getElementById('description-modal')) {
                 document.getElementById('description-modal').style.display = 'none';
-            }
-            if (event.target == document.getElementById('info-modal')) {
-                document.getElementById('info-modal').style.display = 'none';
             }
         }
 
@@ -604,7 +513,7 @@
             
             if (keranjang.length > 0) {
                 cartSummaryEl.style.display = 'block';
-                cartItemsEl.innerHTML = keranjang.map(item => `<li><span>${item.nama}</span><span>Rp ${item.harga.toLocaleString('id-ID')})</span></li>`).join('');
+                cartItemsEl.innerHTML = keranjang.map(item => `<li><span>${item.nama}</span><span>Rp ${item.harga.toLocaleString('id-ID')}</span></li>`).join('');
                 
                 const total = keranjang.reduce((sum, item) => sum + item.harga, 0);
                 cartTotalPriceEl.innerText = `Rp ${total.toLocaleString('id-ID')}`;
@@ -628,7 +537,6 @@
             document.getElementById('order-details-form').style.display = 'none';
 
             const namaPanel = document.getElementById('namaPanel').value;
-            const contact = document.getElementById('contact').value;
             const metodeBayar = document.querySelector('input[name="metodeBayar"]:checked').value;
             const totalHarga = keranjang.reduce((sum, item) => sum + item.harga, 0);
 
@@ -639,7 +547,6 @@
                 produkList: keranjang, 
                 totalHarga, 
                 namaPanel, 
-                contact,
                 metodeBayar, 
                 kodeOrder, 
                 tanggal 
@@ -648,7 +555,6 @@
             document.getElementById('summary-produk').innerHTML = keranjang.map(item => `${item.nama} (Rp ${item.harga.toLocaleString('id-ID')})`).join('<br>');
             document.getElementById('summary-harga').innerText = `Rp ${totalHarga.toLocaleString('id-ID')}`;
             document.getElementById('summary-nama-panel').innerText = namaPanel;
-            document.getElementById('summary-contact').innerText = contact;
             document.getElementById('summary-metode-bayar').innerText = metodeBayar;
             document.getElementById('summary-tanggal').innerText = tanggal;
             document.getElementById('summary-kode-order').innerText = kodeOrder;
@@ -657,7 +563,6 @@
 `[ ORDER PANEL ]
 
 Nama Panel: ${namaPanel}
-Kontak: ${contact}
 Produk:
 ${keranjang.map(item => `  - ${item.nama} (Rp ${item.harga.toLocaleString('id-ID')})`).join('\n')}
 Total Harga: Rp ${totalHarga.toLocaleString('id-ID')}
