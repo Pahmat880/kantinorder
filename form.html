@@ -457,7 +457,7 @@
             <button id="send-order-btn"><i class="fab fa-whatsapp"></i> Kirim Orderan</button>
             <p class="instruction-text">
                 <i class="fas fa-info-circle"></i> Setelah melakukan pembayaran, harap kirim bukti transfer ke nomor admin: <br>
-                <a href="https://wa.me/6282135236285" target="_blank" class="admin-link">6282135236285</a>
+                <a href="https://wa.me/6282135236285" target="_blank" class="admin-link">6282135236285</a> atau via Telegram: <a href="https://t.me/Matzz0" target="_blank" class="admin-link">t.me/Matzz0</a>
             </p>
         </div>
     </div>
@@ -604,7 +604,7 @@
             
             if (keranjang.length > 0) {
                 cartSummaryEl.style.display = 'block';
-                cartItemsEl.innerHTML = keranjang.map(item => `<li><span>${item.nama}</span><span>Rp ${item.harga.toLocaleString('id-ID')}</span></li>`).join('');
+                cartItemsEl.innerHTML = keranjang.map(item => `<li><span>${item.nama}</span><span>Rp ${item.harga.toLocaleString('id-ID')})</span></li>`).join('');
                 
                 const total = keranjang.reduce((sum, item) => sum + item.harga, 0);
                 cartTotalPriceEl.innerText = `Rp ${total.toLocaleString('id-ID')}`;
