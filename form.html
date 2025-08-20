@@ -402,7 +402,14 @@
             <p><strong>Tanggal Order:</strong> <span id="summary-tanggal"></span></p>
             <p><strong>Kode Order:</strong> <span id="summary-kode-order"></span></p>
             <hr>
-            <p>Berikut teks yang akan dikirim ke WhatsApp:</p>
+            <p>
+                <strong style="color: #007bff;"><i class="fas fa-share-alt"></i> Instruksi:</strong>
+                <ol>
+                    <li>Salin teks di bawah ini ke clipboard Anda.</li>
+                    <li>Klik tombol **Kirim Orderan** untuk masuk ke grup.</li>
+                    <li>Tempel dan kirimkan pesan di grup tersebut.</li>
+                </ol>
+            </p>
             <div id="whatsapp-message-box"></div>
             <button id="send-order-btn"><i class="fab fa-whatsapp"></i> Kirim Orderan</button>
             <p class="instruction-text">
@@ -618,13 +625,21 @@ Terima kasih atas pesanannya.`;
                 alert('Gagal mengirim notifikasi email, tapi pesanan siap dikirim ke WhatsApp.');
             }
         });
-
-        document.getElementById('send-order-btn').addEventListener('click', () => {
-            const nomorWhatsApp = '6282135236285';
+        
+        const whatsappGroupLink = 'https://chat.whatsapp.com/GaAmfK4Gf5aGzeHlhv0xer';
+        document.getElementById('send-order-btn').addEventListener('click', async () => {
             const pesan = document.getElementById('whatsapp-message-box').innerText;
-            const whatsappLink = `https://api.whatsapp.com/send?phone=${nomorWhatsApp}&text=${encodeURIComponent(pesan)}`;
-            window.open(whatsappLink, '_blank');
+            
+            // Salin pesan ke clipboard
+            await navigator.clipboard.writeText(pesan);
+            
+            // Beri tahu pengguna bahwa pesan sudah disalin dan akan diarahkan ke grup
+            alert('Pesan telah disalin. Silakan tempel dan kirimkan di grup.');
+            
+            // Arahkan ke grup WhatsApp
+            window.open(whatsappGroupLink, '_blank');
         });
+
     </script>
 </body>
 </html>
