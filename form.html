@@ -27,7 +27,7 @@
             background-color: #fff;
             padding: 30px 40px;
             border-radius: 12px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
             width: 100%;
             max-width: 500px;
         }
@@ -216,11 +216,9 @@
         .admin-link:hover {
             text-decoration: underline;
         }
-
-        /* Modal Styles */
         .modal {
             position: fixed;
-            z-index: 1;
+            z-index: 1000;
             left: 0;
             top: 0;
             width: 100%;
@@ -234,13 +232,14 @@
         .modal-content {
             background-color: #fefefe;
             margin: auto;
-            padding: 20px;
+            padding: 25px;
             border: 1px solid #888;
             width: 80%;
             max-width: 400px;
             border-radius: 12px;
             box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
             position: relative;
+            text-align: center;
         }
         .close-button {
             color: #aaa;
@@ -256,6 +255,21 @@
             color: #000;
             text-decoration: none;
             cursor: pointer;
+        }
+        .modal-content h3 {
+            color: var(--primary-blue);
+        }
+        .modal-content p {
+            font-size: 1em;
+            color: var(--secondary-text);
+        }
+        .modal-content a {
+            color: var(--primary-green);
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .modal-content a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -295,6 +309,10 @@
                 <div class="form-group">
                     <label for="namaPanel"><i class="fas fa-user-circle"></i> Nama Panel:</label>
                     <input type="text" id="namaPanel" name="namaPanel" placeholder="Masukkan nama panel Anda" required>
+                </div>
+                <div class="form-group">
+                    <label for="contact"><i class="fas fa-phone-alt"></i> Kontak yang bisa dihubungi:</label>
+                    <input type="text" id="contact" name="contact" placeholder="Nomor WA atau username Telegram" required>
                 </div>
                 <div class="form-group">
                     <label><i class="fas fa-credit-card"></i> Metode Pembayaran:</label>
@@ -379,6 +397,7 @@
             <p><strong>Produk:</strong> <span id="summary-produk"></span></p>
             <p><strong>Total Harga:</strong> <span id="summary-harga"></span></p>
             <p><strong>Nama Panel:</strong> <span id="summary-nama-panel"></span></p>
+            <p><strong>Kontak:</strong> <span id="summary-contact"></span></p>
             <p><strong>Metode Pembayaran:</strong> <span id="summary-metode-bayar"></span></p>
             <p><strong>Tanggal Order:</strong> <span id="summary-tanggal"></span></p>
             <p><strong>Kode Order:</strong> <span id="summary-kode-order"></span></p>
@@ -388,7 +407,7 @@
             <button id="send-order-btn"><i class="fab fa-whatsapp"></i> Kirim Orderan</button>
             <p class="instruction-text">
                 <i class="fas fa-info-circle"></i> Setelah melakukan pembayaran, harap kirim bukti transfer ke nomor admin: <br>
-                <a href="https://wa.me/6282135236285" target="_blank" class="admin-link">6282135236285</a>
+                <a href="https://wa.me/6282135236285" target="_blank" class="admin-link">6282135236285</a> atau via Telegram: <a href="https://t.me/Matzz0" target="_blank" class="admin-link">t.me/Matzz0</a>
             </p>
         </div>
     </div>
@@ -400,7 +419,7 @@
             <p id="modal-description"></p>
         </div>
     </div>
-
+    
     <script>
         const specialProducts = ["Reseller Panel PUB", "Reseller Panel PRIV", "Bot JPMCH Kantin", "VPS 8Gb C4", "VPS 16Gb C4"];
         const productDescriptions = {
@@ -415,12 +434,14 @@
             "VPS 16Gb C4": "> Garansi 10H 2X Replace"
         };
         
-        // Memuat harga saat halaman dimuat
         document.addEventListener('DOMContentLoaded', () => {
             const prices = document.querySelectorAll('.product-list label');
             prices.forEach(label => {
                 const price = parseInt(label.querySelector('input').dataset.price);
-                label.querySelector('.price-display').innerText = ` (Rp ${price.toLocaleString('id-ID')})`;
+                const priceDisplay = document.createElement('span');
+                priceDisplay.className = 'price-display';
+                priceDisplay.innerText = ` (Rp ${price.toLocaleString('id-ID')})`;
+                label.insertBefore(priceDisplay, label.querySelector('.info-icon'));
             });
         });
 
@@ -439,11 +460,11 @@
             if (isSpecialProductSelected) {
                 namaPanelLabel.innerHTML = '<i class="fas fa-sticky-note"></i> Catatan:';
                 namaPanelInput.placeholder = 'Masukkan catatan Anda di sini';
-                namaPanelInput.removeAttribute('required'); // Menghilangkan required
+                namaPanelInput.removeAttribute('required');
             } else {
                 namaPanelLabel.innerHTML = '<i class="fas fa-user-circle"></i> Nama Panel:';
                 namaPanelInput.placeholder = 'Masukkan nama panel Anda';
-                namaPanelInput.setAttribute('required', 'required'); // Mengembalikan required
+                namaPanelInput.setAttribute('required', 'required');
             }
         }
 
@@ -458,10 +479,10 @@
             modal.style.display = 'flex';
         }
 
-        document.querySelector('.close-button').onclick = function() {
+        document.querySelector('#description-modal .close-button').onclick = function() {
             document.getElementById('description-modal').style.display = 'none';
         }
-
+        
         window.onclick = function(event) {
             if (event.target == document.getElementById('description-modal')) {
                 document.getElementById('description-modal').style.display = 'none';
@@ -513,7 +534,7 @@
             
             if (keranjang.length > 0) {
                 cartSummaryEl.style.display = 'block';
-                cartItemsEl.innerHTML = keranjang.map(item => `<li><span>${item.nama}</span><span>Rp ${item.harga.toLocaleString('id-ID')}</span></li>`).join('');
+                cartItemsEl.innerHTML = keranjang.map(item => `<li><span>${item.nama}</span><span>Rp ${item.harga.toLocaleString('id-ID')})</span></li>`).join('');
                 
                 const total = keranjang.reduce((sum, item) => sum + item.harga, 0);
                 cartTotalPriceEl.innerText = `Rp ${total.toLocaleString('id-ID')}`;
@@ -537,6 +558,7 @@
             document.getElementById('order-details-form').style.display = 'none';
 
             const namaPanel = document.getElementById('namaPanel').value;
+            const contact = document.getElementById('contact').value;
             const metodeBayar = document.querySelector('input[name="metodeBayar"]:checked').value;
             const totalHarga = keranjang.reduce((sum, item) => sum + item.harga, 0);
 
@@ -547,6 +569,7 @@
                 produkList: keranjang, 
                 totalHarga, 
                 namaPanel, 
+                contact,
                 metodeBayar, 
                 kodeOrder, 
                 tanggal 
@@ -555,6 +578,7 @@
             document.getElementById('summary-produk').innerHTML = keranjang.map(item => `${item.nama} (Rp ${item.harga.toLocaleString('id-ID')})`).join('<br>');
             document.getElementById('summary-harga').innerText = `Rp ${totalHarga.toLocaleString('id-ID')}`;
             document.getElementById('summary-nama-panel').innerText = namaPanel;
+            document.getElementById('summary-contact').innerText = contact;
             document.getElementById('summary-metode-bayar').innerText = metodeBayar;
             document.getElementById('summary-tanggal').innerText = tanggal;
             document.getElementById('summary-kode-order').innerText = kodeOrder;
@@ -563,6 +587,7 @@
 `[ ORDER PANEL ]
 
 Nama Panel: ${namaPanel}
+Kontak: ${contact}
 Produk:
 ${keranjang.map(item => `  - ${item.nama} (Rp ${item.harga.toLocaleString('id-ID')})`).join('\n')}
 Total Harga: Rp ${totalHarga.toLocaleString('id-ID')}
