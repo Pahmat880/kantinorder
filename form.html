@@ -416,7 +416,7 @@
                 <button id="send-order-btn" style="flex: 1;"><i class="fab fa-whatsapp"></i> Kirim Orderan</button>
             </div>
             <p class="instruction-text">
-                <i class="fas fa-info-circle"></i> Seluruh konfirmasi transaksi dilakukan di grup. Kirim bukti transfer di sana.
+                <i class="fas fa-info-circle"></i> Seluruh konfirmasi transaksi dan bukti transfer dilakukan di grup.
             </p>
         </div>
     </div>
@@ -628,14 +628,14 @@ Terima kasih atas pesanannya.`;
             }
         });
         
-        const whatsappGroupLink = 'https://chat.whatsapp.com/GaAmfK4Gf5aGzeHlhv0xer';
-        
         document.getElementById('copy-detail-btn').addEventListener('click', async () => {
             const pesan = document.getElementById('whatsapp-message-box').innerText;
             await navigator.clipboard.writeText(pesan);
             alert('Pesan detail pesanan berhasil disalin!');
         });
 
+        const whatsappGroupLink = 'https://chat.whatsapp.com/GaAmfK4Gf5aGzeHlhv0xer';
+        
         document.getElementById('send-order-btn').addEventListener('click', () => {
             window.open(whatsappGroupLink, '_blank');
         });
