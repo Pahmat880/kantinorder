@@ -35,6 +35,7 @@ export default async function handler(req, res) {
 
         const orderData = {
             order_code: kodeOrder,
+            contact: contact,
             nama_panel: namaPanel,
             produk_list: produkList,
             total_harga: totalHarga,
