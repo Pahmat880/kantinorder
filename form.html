@@ -402,19 +402,21 @@
             <p><strong>Tanggal Order:</strong> <span id="summary-tanggal"></span></p>
             <p><strong>Kode Order:</strong> <span id="summary-kode-order"></span></p>
             <hr>
-            <p>
-                <strong style="color: #007bff;"><i class="fas fa-share-alt"></i> Instruksi:</strong>
-                <ol>
-                    <li>Salin teks di bawah ini ke clipboard Anda.</li>
-                    <li>Klik tombol **Kirim Orderan** untuk masuk ke grup.</li>
-                    <li>Tempel dan kirimkan pesan di grup tersebut.</li>
-                </ol>
+            <p style="font-weight: bold; color: var(--primary-blue);">
+                <i class="fas fa-share-alt"></i> Instruksi:
             </p>
+            <ol style="text-align: left; padding-left: 20px;">
+                <li>Salin teks detail pesanan di bawah ini.</li>
+                <li>Klik tombol **Kirim Orderan** untuk masuk ke grup.</li>
+                <li>Tempel (paste) dan kirim pesan di grup tersebut.</li>
+            </ol>
             <div id="whatsapp-message-box"></div>
-            <button id="send-order-btn"><i class="fab fa-whatsapp"></i> Kirim Orderan</button>
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <button id="copy-detail-btn" class="btn-secondary" style="flex: 1;"><i class="fas fa-copy"></i> Salin Detail</button>
+                <button id="send-order-btn" style="flex: 1;"><i class="fab fa-whatsapp"></i> Kirim Orderan</button>
+            </div>
             <p class="instruction-text">
-                <i class="fas fa-info-circle"></i> Setelah melakukan pembayaran, harap kirim bukti transfer ke nomor admin: <br>
-                <a href="https://wa.me/6282135236285" target="_blank" class="admin-link">6282135236285</a> atau via Telegram: <a href="https://t.me/Matzz0" target="_blank" class="admin-link">t.me/Matzz0</a>
+                <i class="fas fa-info-circle"></i> Seluruh konfirmasi transaksi dilakukan di grup. Kirim bukti transfer di sana.
             </p>
         </div>
     </div>
@@ -627,16 +629,14 @@ Terima kasih atas pesanannya.`;
         });
         
         const whatsappGroupLink = 'https://chat.whatsapp.com/GaAmfK4Gf5aGzeHlhv0xer';
-        document.getElementById('send-order-btn').addEventListener('click', async () => {
+        
+        document.getElementById('copy-detail-btn').addEventListener('click', async () => {
             const pesan = document.getElementById('whatsapp-message-box').innerText;
-            
-            // Salin pesan ke clipboard
             await navigator.clipboard.writeText(pesan);
-            
-            // Beri tahu pengguna bahwa pesan sudah disalin dan akan diarahkan ke grup
-            alert('Pesan telah disalin. Silakan tempel dan kirimkan di grup.');
-            
-            // Arahkan ke grup WhatsApp
+            alert('Pesan detail pesanan berhasil disalin!');
+        });
+
+        document.getElementById('send-order-btn').addEventListener('click', () => {
             window.open(whatsappGroupLink, '_blank');
         });
 
