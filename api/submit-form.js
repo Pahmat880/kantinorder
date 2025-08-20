@@ -31,7 +31,7 @@ export default async function handler(req, res) {
         const db = client.db('Cluster0');
         const ordersCollection = db.collection('orders');
 
-        const { produkList, totalHarga, namaPanel, metodeBayar, kodeOrder, tanggal } = req.body;
+        const { produkList, totalHarga, namaPanel, metodeBayar, kodeOrder, tanggal, contact } = req.body;
 
         const orderData = {
             order_code: kodeOrder,
@@ -56,7 +56,7 @@ export default async function handler(req, res) {
             Nama Panel: ${namaPanel}
             Produk:
             ${produkItems}
-            kontak: ${contact}
+            contact: ${contact}
             Total Harga: Rp ${totalHarga.toLocaleString('id-ID')}
             Metode Pembayaran: ${metodeBayar}
             Tanggal Order: ${tanggal}
